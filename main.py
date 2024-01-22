@@ -1,3 +1,3 @@
-import login_form
+import login.main as main
 
-login_form()
+main()

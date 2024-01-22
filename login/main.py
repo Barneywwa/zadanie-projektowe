@@ -1,12 +1,13 @@
 import tkinter as tk
 from tkinter import messagebox
+from dashboard.main import initialize_dashboard
 
 valid_username="123"
 valid_password="123"
 
 def check_login(username, password):
     if username == valid_username and password == valid_password:
-        messagebox.showinfo("Logowanie pomyślne", "Poprawne dane")
+        initialize_dashboard()
     else:
         messagebox.showerror("Błąd logowania", "Błędny login lub hasło. Spróbuj ponownie")
 
