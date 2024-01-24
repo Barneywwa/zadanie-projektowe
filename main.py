@@ -1,3 +1,7 @@
-import login.main as main
+from gui.login import show_login_form
 
-main()
+def main():
+    show_login_form()
+    
+if __name__ == "__main__":
+    main()
