@@ -42,7 +42,68 @@ def show_main_window():
         submit_button = tk.Button(add_shop_window, text="Dodaj sklep", command=submit_shop)
         submit_button.grid(row=4, column=0, columnspan=2)
         
-    def edit_shop(): pass
+    def edit_shop():
+        def get_shop_id():
+            def update_shop():
+                try:
+                    shop_id = int(id_entry.get())
+                    shop = session.query(Sklep).filter_by(id=shop_id).first()
+                    if shop:
+                        id_window.destroy()
+                        show_edit_form(shop)
+                    else:
+                        messagebox.showerror("Błąd!", "Nie znaleziono sklepu o podanym ID.")
+                except ValueError:
+                    messagebox.showerror("Błąd!", "Wprowadź poprawne ID sklepu.")
+
+            id_window = Toplevel()
+            id_window.title("Wprowadź ID sklepu")
+
+            tk.Label(id_window, text="ID Sklepu:").pack()
+            id_entry = tk.Entry(id_window)
+            id_entry.pack()
+
+            submit_button = tk.Button(id_window, text="Edytuj", command=update_shop)
+            submit_button.pack()
+
+        def show_edit_form(shop):
+            def save_changes():
+                shop.adres = adres_entry.get()
+                shop.nazwa_sieci = nazwa_sieci_entry.get()
+                shop.latitude = float(latitude_entry.get())
+                shop.longitude = float(longitude_entry.get())
+                session.commit()
+                edit_window.destroy()
+                messagebox.showinfo("Brawo!", "Dane skelpu zaaktualizowane pomyślnie!")
+
+            edit_window = Toplevel()
+            edit_window.title("Edytuj dane sklepu.")
+
+            tk.Label(edit_window, text="Adres:").grid(row=0, column=0)
+            adres_entry = tk.Entry(edit_window)
+            adres_entry.insert(0, shop.adres)
+            adres_entry.grid(row=0, column=1)
+
+            tk.Label(edit_window, text="Nazwa Sieci:").grid(row=1, column=0)
+            nazwa_sieci_entry = tk.Entry(edit_window)
+            nazwa_sieci_entry.insert(0, shop.nazwa_sieci)
+            nazwa_sieci_entry.grid(row=1, column=1)
+
+            tk.Label(edit_window, text="Szerokość geograficzna:").grid(row=2, column=0)
+            latitude_entry = tk.Entry(edit_window)
+            latitude_entry.insert(0, str(shop.latitude))
+            latitude_entry.grid(row=2, column=1)
+
+            tk.Label(edit_window, text="Długość geograficzna:").grid(row=3, column=0)
+            longitude_entry = tk.Entry(edit_window)
+            longitude_entry.insert(0, str(shop.longitude))
+            longitude_entry.grid(row=3, column=1)
+
+            save_button = tk.Button(edit_window, text="Edytuj", command=save_changes)
+            save_button.grid(row=4, column=0, columnspan=2)
+
+        get_shop_id()
+    
     def remove_shop():
         delete_record(Sklep, "Delete Shop", "Enter Shop ID:")
     
@@ -114,7 +175,79 @@ def show_main_window():
         submit_button = tk.Button(add_employee_window, text="Submit", command=submit_employee)
         submit_button.grid(row=7, column=0, columnspan=2)
     
-    def edit_employee(): pass
+    def edit_employee():
+        def get_employee_id():
+            def update_employee():
+                try:
+                    employee_id = int(id_entry.get())
+                    employee = session.query(Pracownik).filter_by(id=employee_id).first()
+                    if employee:
+                        id_window.destroy()
+                        show_edit_form(employee)
+                    else:
+                        messagebox.showerror("Error", "Employee not found with the provided ID.")
+                except ValueError:
+                    messagebox.showerror("Error", "Please enter a valid ID.")
+
+            id_window = Toplevel()
+            id_window.title("Enter Employee ID")
+
+            tk.Label(id_window, text="Employee ID:").pack()
+            id_entry = tk.Entry(id_window)
+            id_entry.pack()
+
+            submit_button = tk.Button(id_window, text="Submit", command=update_employee)
+            submit_button.pack()
+
+        def show_edit_form(employee):
+            def save_changes():
+                employee.imie = imie_entry.get()
+                employee.nazwisko = nazwisko_entry.get()
+                employee.adres_zamieszkania = adres_zamieszkania_entry.get()
+                employee.adres_pracy = adres_pracy_entry.get()
+                employee.latitude = float(latitude_entry.get())
+                employee.longitude = float(longitude_entry.get())
+                session.commit()
+                edit_window.destroy()
+                messagebox.showinfo("Success", "Employee updated successfully.")
+
+            edit_window = Toplevel()
+            edit_window.title("Edit Employee")
+
+            tk.Label(edit_window, text="Imię:").grid(row=0, column=0)
+            imie_entry = tk.Entry(edit_window)
+            imie_entry.insert(0, employee.imie)
+            imie_entry.grid(row=0, column=1)
+
+            tk.Label(edit_window, text="Nazwisko:").grid(row=1, column=0)
+            nazwisko_entry = tk.Entry(edit_window)
+            nazwisko_entry.insert(0, employee.nazwisko)
+            nazwisko_entry.grid(row=1, column=1)
+
+            tk.Label(edit_window, text="Adres zamieszkania:").grid(row=2, column=0)
+            adres_zamieszkania_entry = tk.Entry(edit_window)
+            adres_zamieszkania_entry.insert(0, employee.adres_zamieszkania)
+            adres_zamieszkania_entry.grid(row=2, column=1)
+
+            tk.Label(edit_window, text="Adres pracy:").grid(row=3, column=0)
+            adres_pracy_entry = tk.Entry(edit_window)
+            adres_pracy_entry.insert(0, employee.adres_pracy)
+            adres_pracy_entry.grid(row=3, column=1)
+
+            tk.Label(edit_window, text="Szerokość geograficzna:").grid(row=4, column=0)
+            latitude_entry = tk.Entry(edit_window)
+            latitude_entry.insert(0, str(employee.latitude))
+            latitude_entry.grid(row=4, column=1)
+
+            tk.Label(edit_window, text="Długość geograficzna:").grid(row=5, column=0)
+            longitude_entry = tk.Entry(edit_window)
+            longitude_entry.insert(0, str(employee.longitude))
+            longitude_entry.grid(row=5, column=1)
+
+            save_button = tk.Button(edit_window, text="Save", command=save_changes)
+            save_button.grid(row=6, column=0, columnspan=2)
+
+        get_employee_id()
     def remove_employee():
         delete_record(Pracownik, "Delete Employee", "Enter Employee ID:")
     def show_employees():
@@ -179,7 +312,68 @@ def show_main_window():
         submit_button = tk.Button(add_supplier_window, text="Submit", command=submit_supplier)
         submit_button.grid(row=4, column=0, columnspan=2)
     
-    def edit_supplier(): pass
+    def edit_supplier():
+        def get_supplier_id():
+            def update_supplier():
+                try:
+                    supplier_id = int(id_entry.get())
+                    supplier = session.query(Dostawca).filter_by(id=supplier_id).first()
+                    if supplier:
+                        id_window.destroy()
+                        show_edit_form(supplier)
+                    else:
+                        messagebox.showerror("Error", "Supplier not found with the provided ID.")
+                except ValueError:
+                    messagebox.showerror("Error", "Please enter a valid ID.")
+
+            id_window = Toplevel()
+            id_window.title("Enter Supplier ID")
+
+            tk.Label(id_window, text="Supplier ID:").pack()
+            id_entry = tk.Entry(id_window)
+            id_entry.pack()
+
+            submit_button = tk.Button(id_window, text="Submit", command=update_supplier)
+            submit_button.pack()
+
+        def show_edit_form(supplier):
+            def save_changes():
+                supplier.nazwa_dostawcy = nazwa_dostawcy_entry.get()
+                supplier.adres_dostawcy = adres_dostawcy_entry.get()
+                supplier.latitude = float(latitude_entry.get())
+                supplier.longitude = float(longitude_entry.get())
+                session.commit()
+                edit_window.destroy()
+                messagebox.showinfo("Success", "Supplier updated successfully.")
+
+            edit_window = Toplevel()
+            edit_window.title("Edit Supplier")
+
+            tk.Label(edit_window, text="Nazwa Dostawcy:").grid(row=0, column=0)
+            nazwa_dostawcy_entry = tk.Entry(edit_window)
+            nazwa_dostawcy_entry.insert(0, supplier.nazwa_dostawcy)
+            nazwa_dostawcy_entry.grid(row=0, column=1)
+
+            tk.Label(edit_window, text="Adres Dostawcy:").grid(row=1, column=0)
+            adres_dostawcy_entry = tk.Entry(edit_window)
+            adres_dostawcy_entry.insert(0, supplier.adres_dostawcy)
+            adres_dostawcy_entry.grid(row=1, column=1)
+
+            tk.Label(edit_window, text="Szerokość geograficzna:").grid(row=2, column=0)
+            latitude_entry = tk.Entry(edit_window)
+            latitude_entry.insert(0, str(supplier.latitude))
+            latitude_entry.grid(row=2, column=1)
+
+            tk.Label(edit_window, text="Długość geograficzna:").grid(row=3, column=0)
+            longitude_entry = tk.Entry(edit_window)
+            longitude_entry.insert(0, str(supplier.longitude))
+            longitude_entry.grid(row=3, column=1)
+
+            save_button = tk.Button(edit_window, text="Save", command=save_changes)
+            save_button.grid(row=4, column=0, columnspan=2)
+
+        get_supplier_id()
+    
     def remove_supplier():
         delete_record(Dostawca, "Delete Supplier", "Enter Supplier ID:")
     def show_suppliers():
@@ -365,6 +559,23 @@ def show_main_window():
     dostawa_frame.grid_columnconfigure(1, weight=1)
     dostawa_frame.grid_columnconfigure(2, weight=1)
 
+    def update_map_with_markers(map_widget):
+        map_widget.delete_all_marker()
+        shops = session.query(Sklep).all()
+        for shop in shops:
+            map_widget.set_marker(shop.latitude, shop.longitude, text=f"Sklep: {shop.nazwa_sieci}", text_color="black", marker_color_circle="white", marker_color_outside="blue")
+            
+        employees = session.query(Pracownik).all()
+        for employee in employees:
+            map_widget.set_marker(employee.latitude, employee.longitude, text=f"Pracownik: {employee.imie} {employee.nazwisko}", text_color="black", marker_color_circle="white", marker_color_outside="yellow")
+
+        suppliers = session.query(Dostawca).all()
+        for supplier in suppliers:
+            map_widget.set_marker(supplier.latitude, supplier.longitude, text=f"Dostawca: {supplier.nazwa_dostawcy}", text_color="black", marker_color_circle="white", marker_color_outside="green")
+
+    def refresh_markers():
+        update_map_with_markers(map_widget)
+
     map_frame = tk.Frame(root)
     map_frame.grid(row=0, column=1, rowspan=5, sticky="nsew", padx=10, pady=5)
 
@@ -372,5 +583,10 @@ def show_main_window():
     map_widget.pack(fill="both", expand=True)
     map_widget.set_position(52.237049, 21.017532)
     map_widget.set_zoom(10)
+    
+    refresh_button = tk.Button(map_frame, text="Odśwież mapę", command=refresh_markers)
+    refresh_button.pack(pady=10)
+    
+    update_map_with_markers(map_widget)
 
     root.mainloop()
