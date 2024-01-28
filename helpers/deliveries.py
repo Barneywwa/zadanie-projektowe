@@ -9,9 +9,9 @@ def delete_record(model_class, window_title, label_text):
         if record:
             session.delete(record)
             session.commit()
-            messagebox.showinfo("Success", f"Record ID {record_id} deleted successfully.")
+            messagebox.showinfo("Brawo!", f"Dostawa o ID {record_id} został usunięty pomyślnie.")
         else:
-            messagebox.showerror("Error", f"No record found with ID {record_id}.")
+            messagebox.showerror("Błąd!", f"Brak dostawy o ID {record_id}.")
         delete_window.destroy()
 
     delete_window = tk.Toplevel()
@@ -20,7 +20,7 @@ def delete_record(model_class, window_title, label_text):
     tk.Label(delete_window, text=label_text).pack()
     id_entry = tk.Entry(delete_window)
     id_entry.pack()
-    submit_button = tk.Button(delete_window, text="Delete", command=submit_deletion)
+    submit_button = tk.Button(delete_window, text="Usuń", command=submit_deletion)
     submit_button.pack()
 
 def show_deliveries():
@@ -29,7 +29,7 @@ def show_deliveries():
 
 def display_deliveries(records):
     top = tk.Toplevel()
-    top.title("List of Deliveries")
+    top.title("Lista dostaw")
 
     tree = ttk.Treeview(top, columns=('ID', 'Adres Dostawy', 'Nazwa Dostawcy'), show='headings')
     tree.heading('ID', text='ID')
@@ -58,7 +58,7 @@ def add_delivery():
         add_delivery_window.destroy()
 
     add_delivery_window = tk.Toplevel()
-    add_delivery_window.title("Add New Delivery")
+    add_delivery_window.title("Dodaj nową dostawę")
 
     tk.Label(add_delivery_window, text="Adres Dostawy:").grid(row=0, column=0)
     adres_dostawy_entry = tk.Entry(add_delivery_window)
@@ -68,8 +68,8 @@ def add_delivery():
     nazwa_dostawcy_entry = tk.Entry(add_delivery_window)
     nazwa_dostawcy_entry.grid(row=1, column=1)
 
-    submit_button = tk.Button(add_delivery_window, text="Submit", command=submit_delivery)
+    submit_button = tk.Button(add_delivery_window, text="Dodaj", command=submit_delivery)
     submit_button.grid(row=2, column=0, columnspan=2)
 
 def delete_delivery():
-    delete_record(Dostawa, "Delete Delivery", "Enter Delivery ID:")
+    delete_record(Dostawa, "Usuń dostawę", "Podaj ID dostawy:")

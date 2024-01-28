@@ -17,12 +17,12 @@ def ask_for_address_and_display(display_function):
         address_window.destroy()
 
     address_window = tk.Toplevel()
-    address_window.title("Enter Shop Address")
+    address_window.title("Wprowadź adres sklepu")
 
-    tk.Label(address_window, text="Shop Address:").pack()
+    tk.Label(address_window, text="Adres sklepu:").pack()
     address_entry = tk.Entry(address_window)
     address_entry.pack()
-    submit_button = tk.Button(address_window, text="Submit", command=submit_address)
+    submit_button = tk.Button(address_window, text="Wyświetl", command=submit_address)
     submit_button.pack()
 
 def show_employees_of_specific_facility(address):
@@ -40,9 +40,9 @@ def delete_record(model_class, window_title, label_text):
         if record:
             session.delete(record)
             session.commit()
-            messagebox.showinfo("Success", f"Record ID {record_id} deleted successfully.")
+            messagebox.showinfo("Brawo!", f"Rekord o ID {record_id} został usunięty pomyślnie.")
         else:
-            messagebox.showerror("Error", f"No record found with ID {record_id}.")
+            messagebox.showerror("Błąd!", f"Nie znaleziono rekordu o ID {record_id}.")
         delete_window.destroy()
 
     delete_window = tk.Toplevel()
@@ -51,5 +51,5 @@ def delete_record(model_class, window_title, label_text):
     tk.Label(delete_window, text=label_text).pack()
     id_entry = tk.Entry(delete_window)
     id_entry.pack()
-    submit_button = tk.Button(delete_window, text="Delete", command=submit_deletion)
+    submit_button = tk.Button(delete_window, text="Usuń", command=submit_deletion)
     submit_button.pack()
