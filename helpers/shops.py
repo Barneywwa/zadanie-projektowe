@@ -9,9 +9,9 @@ def delete_record(model_class, window_title, label_text):
         if record:
             session.delete(record)
             session.commit()
-            messagebox.showinfo("Success", f"Record ID {record_id} deleted successfully.")
+            messagebox.showinfo("Gratulacje", f"Sklep o nadanym ID {record_id} został usunięty pomyślnie.")
         else:
-            messagebox.showerror("Error", f"No record found with ID {record_id}.")
+            messagebox.showerror("Błąd!", f"Brak sklepu o ID {record_id}.")
         delete_window.destroy()
 
     delete_window = tk.Toplevel()
@@ -20,7 +20,7 @@ def delete_record(model_class, window_title, label_text):
     tk.Label(delete_window, text=label_text).pack()
     id_entry = tk.Entry(delete_window)
     id_entry.pack()
-    submit_button = tk.Button(delete_window, text="Delete", command=submit_deletion)
+    submit_button = tk.Button(delete_window, text="Usuń", command=submit_deletion)
     submit_button.pack()
 
 
@@ -123,7 +123,7 @@ def edit_shop():
     get_shop_id()
 
 def remove_shop():
-    delete_record(Sklep, "Delete Shop", "Enter Shop ID:")
+    delete_record(Sklep, "Usuwanie sklepu", "Wprowadź ID sklepu:")
 
 def show_shops():
     sklepy_records = session.query(Sklep).all()
@@ -131,7 +131,7 @@ def show_shops():
 
 def display_shops(records):
     top = Toplevel()
-    top.title("List of Sklepy")
+    top.title("Lista sklepów")
 
     tree = ttk.Treeview(top, columns=('ID', 'Adres', 'Nazwa Sieci'), show='headings')
     tree.heading('ID', text='ID')
